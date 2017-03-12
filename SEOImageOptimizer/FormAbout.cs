@@ -27,11 +27,6 @@ namespace SEOImageOptimizer
 			}
 		}
 
-		private void _LinkLabelFossLook_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			_OpenURL(_LinkLabelFossLook.Text);
-		}
-
 		private void _LinkLabelKawaii_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			_OpenURL(_LinkLabelKawaii.Text);

@@ -36,6 +36,10 @@ namespace SEOImageOptimizer
 
 		string _WorkFolder;
 		bool _SearchRecursively;
+		/// <summary>
+		/// If 100, using lossless compression (different tools)
+		/// </summary>
+		int _CompressionQuality;
 		volatile bool _Stop;
 
 		private void _ButtonStart_Click(object sender, EventArgs e)
@@ -56,7 +60,9 @@ namespace SEOImageOptimizer
 					return;
 				}
 				
-				_StartWork(startFolder, _CheckBoxSubFoldersSearch.Checked);
+				int quality= _RadioButtonLossLessOptimization.Checked ? 100 : (int)_Quality.Value;
+
+				_StartWork(startFolder, _CheckBoxSubFoldersSearch.Checked, quality);
 			}
 			catch (Exception ex)
 			{
@@ -76,10 +82,11 @@ namespace SEOImageOptimizer
 
 
 
-		void _StartWork(string folder, bool recursive)
+		void _StartWork(string folder, bool recursive, int quality)
 		{
 			_EnableControls(false);
 
+			_CompressionQuality = quality;
 			_Stop = false;
 			_WorkFolder = folder;
 			_SearchRecursively = recursive;
@@ -137,7 +144,7 @@ namespace SEOImageOptimizer
 
 				if (ext == ".jpg")
 				{
-					if (_OptimizeJPG(fName))
+					if (_OptimizeJPG(fName, _CompressionQuality))
 						optimized++;
 				}
 				else
@@ -185,12 +192,12 @@ namespace SEOImageOptimizer
 			return result;
 		}
 
-		bool _OptimizeJPG(string jpgFileName)
+		bool _OptimizeJPG(string jpgFileName, int quality)
 		{
 			bool result = false;
 			string shortName = Path.GetFileName(jpgFileName);
 
-			using (JpgOptimizer opt = new JpgOptimizer(jpgFileName))
+			using (JpgOptimizer opt = new JpgOptimizer(jpgFileName, quality))
 			{
 				string optimizedFileName;
 				if (opt.Optimize(out optimizedFileName))
