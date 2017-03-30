@@ -35,26 +35,35 @@ namespace SEOImageOptimizer
 			string djpeg = Path.Combine(Application.StartupPath, "djpeg.exe");
 			string cjpeg = Path.Combine(Application.StartupPath, "cjpeg.exe");//cjpeg.exe -quality 84 -optimize -progressive  source.dat result.jpg
 
-			string temp = Path.Combine(Path.GetTempPath(), "SEO.Image.Optimizer", Guid.NewGuid().ToString());
+			string temp = Path.Combine(Path.GetTempPath(), BaseOptimizer.TEMP_DIRECTORY, Guid.NewGuid().ToString());
 			Directory.CreateDirectory(temp);
 
 			string tempDataFile = Path.Combine(temp, "source.dat");
 
 			//uncompress jpg-file into temp folder
-			string uncompressCommand = string.Format("{0} {1}", sourceFileName, tempDataFile);
+			string uncompressCommand = string.Format("\"{0}\" \"{1}\"", sourceFileName, tempDataFile);
 			ProcessStartInfo pi = new ProcessStartInfo(djpeg, uncompressCommand);
 			pi.WindowStyle = ProcessWindowStyle.Hidden;
 			Process proc = Process.Start(pi);
 			proc.WaitForExit();
+			int djExitCode = proc.ExitCode;
+			if(djExitCode!=0)
+			{
+				throw new ApplicationException(string.Format("{0} {1} ExitCode:{2}", pi.FileName, pi.Arguments, djExitCode));
+			}
 
 			//compress into .jpg again, reduce quality for best compression
-			string compressCommand = string.Format("-quality {0} -optimize -progressive  {1} {2}", _Quality, tempDataFile, destFileName);
+			string compressCommand = string.Format("-quality {0} -optimize -progressive  \"{1}\" \"{2}\"", _Quality, tempDataFile, destFileName);
 			ProcessStartInfo pi2 = new ProcessStartInfo(cjpeg, compressCommand);
 			pi2.WindowStyle = ProcessWindowStyle.Hidden;
 			Process proc2 = Process.Start(pi2);
 			proc2.WaitForExit();
+			int cjExitCode = proc2.ExitCode;
 
-
+			if (cjExitCode != 0)
+			{
+				throw new ApplicationException(string.Format("{0} {1} ExitCode:{2}", pi2.FileName, pi2.Arguments, cjExitCode));
+			}
 		}
 
 		void _DoLosslessOptimization(string sourceFileName, string destFileName)

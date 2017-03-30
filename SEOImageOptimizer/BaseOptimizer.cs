@@ -8,6 +8,8 @@ namespace SEOImageOptimizer
 {
 	class BaseOptimizer: IDisposable
 	{
+		public const string TEMP_DIRECTORY = "SEO.Image.Optimizer";
+
 		protected string _SourceFileName;
 		protected string _TempDirectory;
 

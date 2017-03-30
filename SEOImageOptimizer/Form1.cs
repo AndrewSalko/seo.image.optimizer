@@ -260,6 +260,12 @@ namespace SEOImageOptimizer
 			}
 			else
 			{
+				string temp = Path.Combine(Path.GetTempPath(), BaseOptimizer.TEMP_DIRECTORY);
+				if(Directory.Exists(temp))
+				{
+					Directory.Delete(temp, true);
+				}
+
 				MessageBox.Show(this, "Optimization process completed successfully", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
