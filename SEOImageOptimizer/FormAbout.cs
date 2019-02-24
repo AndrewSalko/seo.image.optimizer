@@ -23,13 +23,19 @@ namespace SEOImageOptimizer
 				System.Diagnostics.Process.Start(link);
 			}
 			catch (Exception)
-			{							
+			{
 			}
 		}
 
 		private void _LinkLabelKawaii_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			_OpenURL(_LinkLabelKawaii.Text);
+		}
+
+		private void _LinkLabelMain_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			string url = _LinkLabelMain.Text.Substring(_LinkLabelMain.LinkArea.Start);
+			_OpenURL(url);
 		}
 	}
 }

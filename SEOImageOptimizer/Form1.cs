@@ -72,6 +72,8 @@ namespace SEOImageOptimizer
 
 		void _EnableControls(bool enable)
 		{
+			_PictureBoxProgress.Visible = !enable;
+
 			_ButtonBrowse.Enabled = enable;
 			_TextBoxDir.Enabled = enable;
 			_ButtonStart.Enabled = enable;
@@ -98,12 +100,12 @@ namespace SEOImageOptimizer
 
 		private void _BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			SearchOption opt=_SearchRecursively ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+			SearchOption opt = _SearchRecursively ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 						
 			int processedFiles=0;
 			int totalFiles = 0;
 			int optimized=0;
-
+			long totalDataSaved = 0;
 
 			Dictionary<string, object> files = new Dictionary<string, object>();
 			
@@ -116,7 +118,7 @@ namespace SEOImageOptimizer
 						return;
 
 					totalFiles++;
-					files[pngFile] = null;					
+					files[pngFile] = null;
 				}
 			}
 						
@@ -144,32 +146,42 @@ namespace SEOImageOptimizer
 
 				if (ext == ".jpg")
 				{
-					if (_OptimizeJPG(fName, _CompressionQuality))
+					long savedBytes = _OptimizeJPG(fName, _CompressionQuality);
+					if (savedBytes > 0)
+					{
 						optimized++;
+						totalDataSaved += savedBytes;
+					}
 				}
 				else
 				{
 					if (ext == ".png")
 					{
-						if (_OptimizePNG(fName))
+						long savedBytes = _OptimizePNG(fName);
+						if (savedBytes > 0)
+						{
 							optimized++;
+							totalDataSaved += savedBytes;
+						}
 					}
 				}
 
 				processedFiles++;
 
-				_DisplayTotal(totalFiles, processedFiles, optimized);
+				_DisplayTotal(totalFiles, processedFiles, optimized, totalDataSaved);
 			}
 		}
 
-		void _DisplayTotal(int totalFiles, int processed, int optimized)
+		void _DisplayTotal(int totalFiles, int processed, int optimized, long dataLength)
 		{
-			_LogLabel("Processed {0} from {1} images, {2} optimized", processed, totalFiles, optimized);
+			string dataSaveMsg = SizeFormatter.ToString(dataLength);
+
+			_LogLabel("Processed {0} from {1} images, {2} optimized, saved: {3} ({4} bytes)", processed, totalFiles, optimized, dataSaveMsg, dataLength);
 		}
 
-		bool _OptimizePNG(string pngFileName)
+		long _OptimizePNG(string pngFileName)
 		{
-			bool result = false;
+			long result = 0;
 			string shortName = Path.GetFileName(pngFileName);
 
 			using (PngOptimizer opt = new PngOptimizer(pngFileName))
@@ -181,7 +193,7 @@ namespace SEOImageOptimizer
 
 					File.Copy(optimizedFileName, pngFileName, true);
 
-					result = true;
+					result = opt.BytesOptimized;
 				}
 				else
 				{
@@ -192,9 +204,9 @@ namespace SEOImageOptimizer
 			return result;
 		}
 
-		bool _OptimizeJPG(string jpgFileName, int quality)
+		long _OptimizeJPG(string jpgFileName, int quality)
 		{
-			bool result = false;
+			long result = 0;
 			string shortName = Path.GetFileName(jpgFileName);
 
 			using (JpgOptimizer opt = new JpgOptimizer(jpgFileName, quality))
@@ -206,7 +218,7 @@ namespace SEOImageOptimizer
 
 					File.Copy(optimizedFileName, jpgFileName, true);
 
-					result = true;
+					result = opt.BytesOptimized;
 				}
 				else
 				{
@@ -246,7 +258,7 @@ namespace SEOImageOptimizer
 			string res = string.Format(message, args);
 
 			int ind=_ListBoxLog.Items.Add(res);
-			_ListBoxLog.SelectedIndex = ind;			
+			_ListBoxLog.SelectedIndex = ind;
 		}
 
 
@@ -272,7 +284,6 @@ namespace SEOImageOptimizer
 
 		private void _BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -290,7 +301,7 @@ namespace SEOImageOptimizer
 
 		private void _ButtonStop_Click(object sender, EventArgs e)
 		{
-			_Stop = true;			
+			_Stop = true;
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

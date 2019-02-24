@@ -43,12 +43,14 @@
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this._GroupBoxOptions = new System.Windows.Forms.GroupBox();
-			this._RadioButtonLossLessOptimization = new System.Windows.Forms.RadioButton();
-			this._RadioButtonOptimizeWithQuality = new System.Windows.Forms.RadioButton();
 			this._Quality = new System.Windows.Forms.NumericUpDown();
+			this._RadioButtonOptimizeWithQuality = new System.Windows.Forms.RadioButton();
+			this._RadioButtonLossLessOptimization = new System.Windows.Forms.RadioButton();
+			this._PictureBoxProgress = new System.Windows.Forms.PictureBox();
 			this.menuStrip1.SuspendLayout();
 			this._GroupBoxOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._Quality)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._PictureBoxProgress)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -66,13 +68,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._TextBoxDir.Location = new System.Drawing.Point(15, 54);
 			this._TextBoxDir.Name = "_TextBoxDir";
-			this._TextBoxDir.Size = new System.Drawing.Size(469, 20);
+			this._TextBoxDir.Size = new System.Drawing.Size(538, 20);
 			this._TextBoxDir.TabIndex = 1;
 			// 
 			// _ButtonBrowse
 			// 
 			this._ButtonBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this._ButtonBrowse.Location = new System.Drawing.Point(490, 52);
+			this._ButtonBrowse.Location = new System.Drawing.Point(559, 52);
 			this._ButtonBrowse.Name = "_ButtonBrowse";
 			this._ButtonBrowse.Size = new System.Drawing.Size(58, 23);
 			this._ButtonBrowse.TabIndex = 2;
@@ -93,7 +95,7 @@
 			// _ButtonStart
 			// 
 			this._ButtonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._ButtonStart.Location = new System.Drawing.Point(437, 370);
+			this._ButtonStart.Location = new System.Drawing.Point(506, 370);
 			this._ButtonStart.Name = "_ButtonStart";
 			this._ButtonStart.Size = new System.Drawing.Size(111, 23);
 			this._ButtonStart.TabIndex = 4;
@@ -131,13 +133,13 @@
 			this._ListBoxLog.FormattingEnabled = true;
 			this._ListBoxLog.Location = new System.Drawing.Point(15, 204);
 			this._ListBoxLog.Name = "_ListBoxLog";
-			this._ListBoxLog.Size = new System.Drawing.Size(533, 134);
+			this._ListBoxLog.Size = new System.Drawing.Size(602, 134);
 			this._ListBoxLog.TabIndex = 7;
 			// 
 			// _ButtonStop
 			// 
 			this._ButtonStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._ButtonStop.Location = new System.Drawing.Point(334, 370);
+			this._ButtonStop.Location = new System.Drawing.Point(403, 370);
 			this._ButtonStop.Name = "_ButtonStop";
 			this._ButtonStop.Size = new System.Drawing.Size(97, 23);
 			this._ButtonStop.TabIndex = 8;
@@ -151,7 +153,7 @@
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(560, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(629, 24);
 			this.menuStrip1.TabIndex = 9;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -166,7 +168,7 @@
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -179,32 +181,10 @@
 			this._GroupBoxOptions.Controls.Add(this._RadioButtonLossLessOptimization);
 			this._GroupBoxOptions.Location = new System.Drawing.Point(15, 103);
 			this._GroupBoxOptions.Name = "_GroupBoxOptions";
-			this._GroupBoxOptions.Size = new System.Drawing.Size(533, 85);
+			this._GroupBoxOptions.Size = new System.Drawing.Size(602, 85);
 			this._GroupBoxOptions.TabIndex = 10;
 			this._GroupBoxOptions.TabStop = false;
 			this._GroupBoxOptions.Text = "Optimization options";
-			// 
-			// _RadioButtonLossLessOptimization
-			// 
-			this._RadioButtonLossLessOptimization.AutoSize = true;
-			this._RadioButtonLossLessOptimization.Checked = true;
-			this._RadioButtonLossLessOptimization.Location = new System.Drawing.Point(6, 28);
-			this._RadioButtonLossLessOptimization.Name = "_RadioButtonLossLessOptimization";
-			this._RadioButtonLossLessOptimization.Size = new System.Drawing.Size(123, 17);
-			this._RadioButtonLossLessOptimization.TabIndex = 0;
-			this._RadioButtonLossLessOptimization.TabStop = true;
-			this._RadioButtonLossLessOptimization.Text = "Lossless optimization";
-			this._RadioButtonLossLessOptimization.UseVisualStyleBackColor = true;
-			// 
-			// _RadioButtonOptimizeWithQuality
-			// 
-			this._RadioButtonOptimizeWithQuality.AutoSize = true;
-			this._RadioButtonOptimizeWithQuality.Location = new System.Drawing.Point(6, 51);
-			this._RadioButtonOptimizeWithQuality.Name = "_RadioButtonOptimizeWithQuality";
-			this._RadioButtonOptimizeWithQuality.Size = new System.Drawing.Size(246, 17);
-			this._RadioButtonOptimizeWithQuality.TabIndex = 1;
-			this._RadioButtonOptimizeWithQuality.Text = "Optimize and reduce quality (best compression)";
-			this._RadioButtonOptimizeWithQuality.UseVisualStyleBackColor = true;
 			// 
 			// _Quality
 			// 
@@ -228,11 +208,46 @@
             0,
             0});
 			// 
+			// _RadioButtonOptimizeWithQuality
+			// 
+			this._RadioButtonOptimizeWithQuality.AutoSize = true;
+			this._RadioButtonOptimizeWithQuality.Location = new System.Drawing.Point(6, 51);
+			this._RadioButtonOptimizeWithQuality.Name = "_RadioButtonOptimizeWithQuality";
+			this._RadioButtonOptimizeWithQuality.Size = new System.Drawing.Size(246, 17);
+			this._RadioButtonOptimizeWithQuality.TabIndex = 1;
+			this._RadioButtonOptimizeWithQuality.Text = "Optimize and reduce quality (best compression)";
+			this._RadioButtonOptimizeWithQuality.UseVisualStyleBackColor = true;
+			// 
+			// _RadioButtonLossLessOptimization
+			// 
+			this._RadioButtonLossLessOptimization.AutoSize = true;
+			this._RadioButtonLossLessOptimization.Checked = true;
+			this._RadioButtonLossLessOptimization.Location = new System.Drawing.Point(6, 28);
+			this._RadioButtonLossLessOptimization.Name = "_RadioButtonLossLessOptimization";
+			this._RadioButtonLossLessOptimization.Size = new System.Drawing.Size(123, 17);
+			this._RadioButtonLossLessOptimization.TabIndex = 0;
+			this._RadioButtonLossLessOptimization.TabStop = true;
+			this._RadioButtonLossLessOptimization.Text = "Lossless optimization";
+			this._RadioButtonLossLessOptimization.UseVisualStyleBackColor = true;
+			// 
+			// _PictureBoxProgress
+			// 
+			this._PictureBoxProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._PictureBoxProgress.Image = global::SEOImageOptimizer.Properties.Resources.Loading;
+			this._PictureBoxProgress.Location = new System.Drawing.Point(15, 344);
+			this._PictureBoxProgress.Name = "_PictureBoxProgress";
+			this._PictureBoxProgress.Size = new System.Drawing.Size(15, 15);
+			this._PictureBoxProgress.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._PictureBoxProgress.TabIndex = 11;
+			this._PictureBoxProgress.TabStop = false;
+			this._PictureBoxProgress.Visible = false;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(560, 405);
+			this.ClientSize = new System.Drawing.Size(629, 405);
+			this.Controls.Add(this._PictureBoxProgress);
 			this.Controls.Add(this._GroupBoxOptions);
 			this.Controls.Add(this._ButtonStop);
 			this.Controls.Add(this._ListBoxLog);
@@ -246,13 +261,14 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
-			this.Text = "SEO Image optimization utility";
+			this.Text = "SEO Image optimization utility (1.0)";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this._GroupBoxOptions.ResumeLayout(false);
 			this._GroupBoxOptions.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._Quality)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._PictureBoxProgress)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -277,6 +293,7 @@
 		private System.Windows.Forms.RadioButton _RadioButtonOptimizeWithQuality;
 		private System.Windows.Forms.RadioButton _RadioButtonLossLessOptimization;
 		private System.Windows.Forms.NumericUpDown _Quality;
+		private System.Windows.Forms.PictureBox _PictureBoxProgress;
 	}
 }
 

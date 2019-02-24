@@ -38,13 +38,10 @@ namespace SEOImageOptimizer
 			_TempDirectory = dir.FullName;			
 		}
 
-		long _BytesOptimized;
 		public long BytesOptimized
 		{
-			get
-			{
-				return _BytesOptimized;
-			}
+			get;
+			protected set;
 		}
 
 		public bool Optimize(out string newFileName)
@@ -69,7 +66,7 @@ namespace SEOImageOptimizer
 				if (optLength < srcLength)
 				{
 					newFileName = destFileName;
-					_BytesOptimized = srcLength - optLength;
+					BytesOptimized = srcLength - optLength;
 					result = true;
 				}
 			}
